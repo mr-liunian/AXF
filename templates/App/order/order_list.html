@@ -1,0 +1,45 @@
+{% extends 'App/order/order_base.html' %}
+
+{% block extJS %}
+    {{ block.super }}
+    <script type="text/javascript">
+
+        $(function () {
+            $('.detail').click(function () {
+                var detail = $(this);
+                var orderid = detail.attr('orderid');
+
+                window.open('/app/orderdetail/?orderid=' + orderid, target = '_self');
+            })
+        })
+
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+
+        <ul>
+            {% for order in orders %}
+                <li>
+                    <p>订单编号：{{ order.id }}
+                        <button orderid="{{ order.id }}" class="detail btn btn-success ">详情</button>
+                    </p>
+                    <ul>
+                        {% for ordergoods in  order.ordergoods_set.all %}
+                            <li>
+                                <img src="{{ ordergoods.goods.productimg }}">
+                                <span>{{ ordergoods.goods_num }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+
+        </ul>
+
+
+    </div>
+
+{% endblock %}
